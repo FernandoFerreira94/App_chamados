@@ -1,0 +1,34 @@
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: #121212;
+    padding: 0 12px;
+}
+
+.login{
+    background: #eaeaec;
+    width: 80%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.login-area{
+    background: #181c2e;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    border-radius: 10px 10px 0 0;
+}
+.login-area img {
+    width: 170px;
+    height: 130px;
+    padding: 20px;
+}

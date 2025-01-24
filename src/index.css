@@ -1,0 +1,27 @@
+*{
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+font-family: sans-serif;
+}
+
+html, body, #root{
+    height: 100%;
+}
+
+body{
+    background-color: #efefef;
+    font-size: 14px;
+}
+
+a{
+    text-decoration: none;
+}
+
+button{
+    cursor: pointer;
+}
+
+ul{
+    list-style: none;
+}
