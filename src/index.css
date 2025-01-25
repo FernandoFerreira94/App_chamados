@@ -16,6 +16,9 @@ body{
 
 a{
     text-decoration: none;
+    &:hover{
+        color:black;
+    }
 }
 
 button{

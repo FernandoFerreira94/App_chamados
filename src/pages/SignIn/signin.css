@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    padding-bottom: 10px;
 }
 
 .login-area{
@@ -24,11 +24,37 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    
-    border-radius: 10px 10px 0 0;
 }
 .login-area img {
     width: 170px;
     height: 130px;
     padding: 20px;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+    row-gap:5px;
+    width: 50%;
+    padding: 20px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    height: 30px;
+    width: 100%;
+    padding: 4px 8px;
+}
+
+input[type='submit'] {
+    background-color: #181c2e;
+    color: #fff;
+    transition: all 0.4s;
+    &:hover{
+    background-color: #121212;
+    cursor: pointer;
+}
+}
+
+
