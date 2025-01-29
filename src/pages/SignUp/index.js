@@ -1,58 +1,49 @@
 import React from "react";
-import "./signup.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Db } from "../../db";
-import { auth } from "../../db";
-import { setDoc, doc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import logo from "../../assets/logo.png";
 import { toast } from "react-toastify";
 
+import logo from "../../assets/logo.png";
+import { AuthContext } from "../../contexts/auth";
+
 export default function SignUp() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [surName, setSurName] = useState("");
 
-  async function handleRegister(event) {
+  const { signUp, loadinAuth } = useContext(AuthContext);
+
+  function clearCamp() {
+    setName("");
+    setEmail("");
+    setPassword("");
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault(); // Prevenir o comportamento padrão de submissão do formulário
-    try {
-      // Criar usuário com email e senha
-      await createUserWithEmailAndPassword(auth, email, password);
 
-      // Salvar informações do usuário no Firestore
-      await setDoc(doc(Db, "registerInfo", email), {
-        id: email,
-        firstName: firstName,
-        surName: surName,
-      });
+    if (name !== "" && email !== "" && password !== "") {
+      await signUp(name, email, password);
 
-      toast.success("Usuário registrado com sucesso!");
-    } catch (e) {
-      toast.error("Erro ao registrar usuário: " + e.message);
+      clearCamp();
+    } else {
+      toast.warning("Preencha todos os campos");
     }
   }
+
   return (
     <div className="container-center">
       <div className="login">
         <div className="login-area">
           <img src={logo} alt="logo do sistema de chamados" />
         </div>
-        <form onSubmit={handleRegister}>
-          <h1>Register</h1>
+        <form onSubmit={handleSubmit}>
+          <h1>Nova Conta</h1>
           <input
             type="text"
-            placeholder="Digite seu Nome"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Digite seu apelido"
-            value={surName}
-            onChange={(e) => setSurName(e.target.value)}
+            placeholder="Seu nome"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
 
           <input
@@ -68,10 +59,13 @@ export default function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <input type="submit" value="Register" />
+          <input
+            type="submit"
+            value={loadinAuth ? "Carregando..." : "Cadastrar"}
+          />
         </form>
 
-        <Link to={"/"}>Já possue uma conta?</Link>
+        <Link to={"/"}>Já possue uma conta? Faça login.</Link>
       </div>
     </div>
   );
