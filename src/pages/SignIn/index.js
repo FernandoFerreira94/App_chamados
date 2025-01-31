@@ -33,7 +33,7 @@ export default function SignIn() {
         <div className="login-area">
           <img src={logo} alt="logo do sistema de chamados" />
         </div>
-        <form onSubmit={handleSingIn}>
+        <form onSubmit={handleSingIn} className="form-signIn">
           <h1>Entrar</h1>
           <input
             type="text"

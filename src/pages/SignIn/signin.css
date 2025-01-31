@@ -31,7 +31,7 @@
     padding: 20px;
 }
 
-form {
+.form-signIn {
     display: flex;
     flex-direction: column;
     row-gap:10px;
