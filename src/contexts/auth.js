@@ -93,6 +93,7 @@ function AuthProvider({ children }) {
       })
       .catch((error) => {
         toast.error(`erro ao cadastrar ${error}`);
+        console.log(error);
         setLoadingAuth(false);
       });
   }
@@ -116,11 +117,14 @@ function AuthProvider({ children }) {
       value={{
         signed: !!user,
         user,
+        setUser,
         loadingAuth,
         loading,
         logout,
         signIn,
         signUp,
+        storageUser,
+        setUser,
       }}
     >
       {children}

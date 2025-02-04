@@ -3,6 +3,8 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import "../SignIn/signin.css";
+
 import logo from "../../assets/logo.png";
 import { AuthContext } from "../../contexts/auth";
 
@@ -37,7 +39,7 @@ export default function SignUp() {
         <div className="login-area">
           <img src={logo} alt="logo do sistema de chamados" />
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-signIn">
           <h1>Nova Conta</h1>
           <input
             type="text"

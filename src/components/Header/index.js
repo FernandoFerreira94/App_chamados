@@ -11,9 +11,6 @@ import photoPerfil from "../../assets/photoPerfil2.jpg";
 export default function Header() {
   const { user } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(user);
-  });
   return (
     <div className="sidebar">
       <div>
