@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import "../SignIn/signin.css";
 
 import logo from "../../assets/logo.png";
+
 import { AuthContext } from "../../contexts/auth";
 
 export default function SignUp() {

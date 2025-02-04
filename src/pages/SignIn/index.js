@@ -11,7 +11,7 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signIn, loadinAuth } = useContext(AuthContext);
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
   function clearCamp() {
     setEmail("");
@@ -48,7 +48,10 @@ export default function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <input type="submit" value={loadinAuth ? "Logando..." : "Acessar"} />
+          <input
+            type="submit"
+            value={loadingAuth ? "Carregando..." : "Acessar"}
+          />
         </form>
 
         <Link to={"/register"}>Criar uma conta.</Link>

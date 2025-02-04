@@ -48,20 +48,31 @@ export default function Profile() {
 
   async function handleUpload() {
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       const imageLocalStorage = reader.result;
 
       let data = {
         ...user,
         avatarUrl: imageLocalStorage,
+        nome: name,
       };
+      const docRef = doc(db, "users", user.uid);
+      await updateDoc(docRef, {
+        avatarUrl: imageLocalStorage,
+        nome: name,
+      })
+        .then(() => {
+          setUser(data);
+          storageUser(data);
+          setAvatarUrl(imageLocalStorage);
+          setImageAvatar(null);
 
-      setUser(data);
-      storageUser(data);
-      setAvatarUrl(imageLocalStorage);
-      setImageAvatar(null);
-
-      toast.success("Foto de perfil atualizada com sucesso!");
+          toast.success("Foto de perfil atualizada com sucesso!");
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Ops falha ao atualizar");
+        });
     };
 
     reader.readAsDataURL(imageAvatar);
@@ -87,7 +98,7 @@ export default function Profile() {
         })
         .catch((e) => toast.error("Erro ao atualizar o nome"));
     } else if (name !== "" && imageAvatar !== null) {
-      handleUpload();
+      await handleUpload();
     }
   }
 
@@ -135,12 +146,6 @@ export default function Profile() {
 
             <input type="submit" value="Salvar" />
           </form>
-        </div>
-
-        <div className="container">
-          <button className="btn-logout" onClick={logout}>
-            Sair
-          </button>
         </div>
       </div>
     </>
