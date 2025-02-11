@@ -4,11 +4,12 @@ import Header from "../../components/Header";
 import Title from "../../components/Title";
 import { db } from "../../services/firebaseConection.js";
 
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
 import { AuthContext } from "../../contexts/auth";
 import { FiPlusCircle } from "react-icons/fi";
 
 import "./new.css";
+import { toast } from "react-toastify";
 
 const listRef = collection(db, "customers");
 
@@ -68,6 +69,27 @@ export default function New() {
   async function handleRegistrar(e) {
     e.preventDefault();
     setLoadingAuth(true);
+
+    await addDoc(collection(db, "chamdos"), {
+      created: new Date(),
+      cliente: customers[customersSelected].nomeFantasia,
+      clienteId: customers[customersSelected].id,
+      assunto: assunto,
+      complemento: complemento,
+      status: status,
+      userId: user.uid,
+    })
+      .then(() => {
+        toast.success("Chamadoregistrado com sucesso");
+        setComplemento("");
+        setCustomersSelected(0);
+        setLoadingAuth(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("Ops erro ao Registrar");
+        setLoadingAuth(false);
+      });
   }
 
   async function handleOptionChange(e) {

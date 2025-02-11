@@ -28,6 +28,12 @@
     flex-direction: column;
 }
 
+.dashboard span{
+    margin: 2em 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 table{
     border: 1px solid #ccc ;
     margin: 0;
