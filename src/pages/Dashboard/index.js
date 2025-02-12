@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 import "./dashboard.css";
 import Header from "../../components/Header";
@@ -22,15 +23,18 @@ export default function Dashboard() {
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [lastDocs, setLastDocs] = useState();
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const docRef = collection(db, "chamdos");
+
   useEffect(() => {
     async function loadChamados() {
-      const q = query(docRef, orderBy("created", "desc"), limit(5));
+      const q = query(docRef, orderBy("created", "desc"), limit(10));
 
-      const querySnapsot = await getDocs(q);
+      const querySnapshot = await getDocs(q);
 
-      await updateState(querySnapsot);
+      await updateState(querySnapshot);
 
       setLoading(false);
     }
@@ -52,15 +56,51 @@ export default function Dashboard() {
           cliente: doc.data().cliente,
           clienteId: doc.data().clienteId,
           status: doc.data().status,
-          created: doc.data().created.toDate().toLocaleDateString(),
+          created: doc.data().created,
+          createdFormat: format(doc.data().created.toDate(), "dd/MM/yyyy"),
           complemento: doc.data().complemento,
         });
 
-        setChamados((chamados) => [...chamados, ...lista]);
+        const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+        setChamados(lista);
+        setLastDocs(lastDoc);
       });
     } else {
       setIsEmpty(true);
     }
+
+    setLoadingMore(false);
+  }
+
+  async function handleMore() {
+    setLoadingMore(true);
+    const q = query(
+      docRef,
+      orderBy("created", "desc"),
+      startAfter(lastDocs),
+      limit(10)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    await updateState(querySnapshot);
+  }
+
+  if (loading) {
+    return (
+      <div>
+        <Header />
+        <div className="content">
+          <Title name="Tickets">
+            <FiMessageSquare size={25} />
+          </Title>
+
+          <div className="container dashboard">
+            <span>Buscando chamados...</span>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -100,34 +140,23 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {chamados.map((chamado, index) => (
+                  {chamados.map((iten, index) => (
                     <tr key={index}>
-                      <td data-label="Cliente">{chamado.cliente} </td>
-                      <td data-label="Assunto">{chamado.assunto} </td>
+                      <td data-label="Cliente">{iten.cliente} </td>
+                      <td data-label="Assunto">{iten.assunto} </td>
                       <td data-label="Status">
-                        {chamado.status === "Aberto" ? (
-                          <span
-                            style={{
-                              backgroundColor: "#999",
-                              padding: "3px 4px",
-                              borderRadius: "5px",
-                            }}
-                          >
-                            {chamado.status}
-                          </span>
-                        ) : (
-                          <span
-                            style={{
-                              backgroundColor: "#83bf02",
-                              padding: "3px 4px",
-                              borderRadius: "5px",
-                            }}
-                          >
-                            {chamado.status}
-                          </span>
-                        )}
+                        <span
+                          className="badge"
+                          style={{
+                            background:
+                              iten.status === "Aberto" ? "#5CB85C" : "#999",
+                          }}
+                        >
+                          {" "}
+                          {iten.status}
+                        </span>
                       </td>
-                      <td data-label="Cadastrado"> {chamado.created} </td>
+                      <td data-label="Cadastrado"> {iten.createdFormat} </td>
                       <td data-label="#">
                         <button>
                           <FiSearch
@@ -137,19 +166,29 @@ export default function Dashboard() {
                             style={{ backgroundColor: "#3583f6" }}
                           />
                         </button>{" "}
-                        <button>
+                        <Link to={`/new/${iten.id}`}>
                           <FiEdit2
                             className="action"
                             size={17}
                             color="#fff"
                             style={{ backgroundColor: "f6a935" }}
                           />
-                        </button>{" "}
+                        </Link>{" "}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              {loadingMore && (
+                <div className="container">
+                  <h3>Buscando mais chamados...</h3>
+                </div>
+              )}
+              {!loadingMore && !isEmpty && (
+                <button onClick={handleMore} className="btnMore">
+                  Buscar mais
+                </button>
+              )}
             </>
           )}
         </>

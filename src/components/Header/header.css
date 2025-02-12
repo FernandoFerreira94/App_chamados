@@ -1,7 +1,7 @@
 .sidebar  {
     margin: 0;
     padding: 0;
-    background-color: #181c2e;
+    background-color: #080808;
     position: fixed;
     overflow: auto;
     height: 100%;
@@ -11,7 +11,7 @@
 }
 
 .sidebar div {
-    background: url('../../assets/cover.png');
+    background: url('../../assets/5.png');
     background-color: #181c2e;
     background-position: center;
     background-repeat: no-repeat;

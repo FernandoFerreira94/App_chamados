@@ -47,6 +47,14 @@ export default function RoutesApp() {
           </Private>
         }
       />
+      <Route
+        path="/new/:id"
+        element={
+          <Private>
+            <New />
+          </Private>
+        }
+      />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );

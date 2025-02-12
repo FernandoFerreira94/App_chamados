@@ -86,7 +86,16 @@ table td .badge {
     color: #fff;
 }
 
+.btnMore{
 
+    margin: 1.5em 0;
+    padding: 0.5em 1em;
+    background-color: #181c2e;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    color: #fff;
+}
 
 
 

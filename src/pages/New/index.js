@@ -4,17 +4,27 @@ import Header from "../../components/Header";
 import Title from "../../components/Title";
 import { db } from "../../services/firebaseConection.js";
 
-import { collection, getDocs, getDoc, doc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { AuthContext } from "../../contexts/auth";
 import { FiPlusCircle } from "react-icons/fi";
 
 import "./new.css";
 import { toast } from "react-toastify";
+import { useParams, useNavigate } from "react-router-dom";
 
 const listRef = collection(db, "customers");
-
 export default function New() {
   const { loadingAuth, setLoadingAuth, user } = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [loadCustomer, setLoadCustomer] = useState(true);
 
@@ -23,6 +33,7 @@ export default function New() {
   const [complemento, setComplemento] = useState("");
   const [assunto, setAssunto] = useState("suporte");
   const [status, setStatus] = useState("Aberto");
+  const [idCustomer, setIdCustomer] = useState(false);
 
   useEffect(() => {
     async function loadCustomers() {
@@ -51,6 +62,10 @@ export default function New() {
 
           setCustomers(lista);
           setLoadCustomer(false);
+
+          if (id) {
+            loadId(lista);
+          }
         })
         .catch((e) => {
           console.log("ERRO AO BUSCAR CLIENTES", e);
@@ -64,10 +79,49 @@ export default function New() {
         });
     }
     loadCustomers();
-  }, []);
+  }, [id]);
+
+  async function loadId(lista) {
+    const docRef = doc(db, "chamdos", id);
+
+    await getDoc(docRef)
+      .then((snapshot) => {
+        setAssunto(snapshot.data().assunto);
+        setStatus(snapshot.data().status);
+        setComplemento(snapshot.data().complemento);
+
+        let index = lista.findIndex(
+          (item) => item.id === snapshot.data().clienteId
+        );
+
+        setCustomersSelected(index);
+        setIdCustomer(true);
+      })
+      .catch((e) => {
+        console.log(e);
+        setIdCustomer(false);
+      });
+  }
 
   async function handleRegistrar(e) {
     e.preventDefault();
+
+    if (idCustomer) {
+      const dorRef = doc(db, "chamdos", id);
+      await updateDoc(dorRef, {
+        assunto: assunto,
+        status: status,
+        complemento: complemento,
+      })
+        .then(() => {
+          toast.success("Salvo!");
+          navigate("/dashboard");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      return;
+    }
     setLoadingAuth(true);
 
     await addDoc(collection(db, "chamdos"), {
@@ -80,7 +134,7 @@ export default function New() {
       userId: user.uid,
     })
       .then(() => {
-        toast.success("Chamadoregistrado com sucesso");
+        toast.success("Chamado registrado com sucesso");
         setComplemento("");
         setCustomersSelected(0);
         setLoadingAuth(false);
@@ -104,6 +158,19 @@ export default function New() {
   function handleCustomersChange(e) {
     setCustomersSelected(e.target.value);
   }
+
+  async function handleExcluir() {
+    const docRef = doc(db, "chamdos", id);
+
+    await deleteDoc(docRef)
+      .then(() => {
+        toast.error("Chamado excluido");
+        navigate("/dashboard");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
   return (
     <>
       <Header />
@@ -118,8 +185,10 @@ export default function New() {
               <input type="text" disabled={true} value="Carregando... " />
             ) : (
               <select
+                disabled={idCustomer ? true : false}
                 value={customersSelected}
                 onChange={handleCustomersChange}
+                style={{ cursor: idCustomer ? "not-allowed" : "pointer" }}
               >
                 {customers.map((item, index) => {
                   return (
@@ -184,8 +253,17 @@ export default function New() {
             />
             <input
               type="submit"
-              value={loadingAuth ? "Registrando" : "Registrar"}
+              value={
+                idCustomer
+                  ? "Editar"
+                  : loadingAuth
+                    ? "Registrando"
+                    : "Registrar"
+              }
             />
+            {idCustomer && (
+              <input type="submit" value="Excluir" onClick={handleExcluir} />
+            )}
           </form>
         </div>
       </div>
