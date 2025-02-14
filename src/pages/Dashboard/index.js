@@ -3,11 +3,6 @@ import { AuthContext } from "../../contexts/auth";
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-
-import "./dashboard.css";
-import Header from "../../components/Header";
-import Title from "../../components/Title";
-import { db } from "../../services/firebaseConection.js";
 import {
   collection,
   getDocs,
@@ -17,6 +12,12 @@ import {
   query,
 } from "firebase/firestore";
 
+import "./dashboard.css";
+import Header from "../../components/Header";
+import Title from "../../components/Title";
+import Modal from "../../components/Modal";
+import { db } from "../../services/firebaseConection.js";
+
 export default function Dashboard() {
   const { user } = useContext(AuthContext);
 
@@ -25,6 +26,8 @@ export default function Dashboard() {
   const [isEmpty, setIsEmpty] = useState(false);
   const [lastDocs, setLastDocs] = useState();
   const [loadingMore, setLoadingMore] = useState(false);
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [detail, setDetail] = useState({});
 
   const docRef = collection(db, "chamdos");
 
@@ -103,6 +106,11 @@ export default function Dashboard() {
     );
   }
 
+  async function handleShowPostModal(iten) {
+    setShowPostModal(!showPostModal);
+    setDetail(iten);
+  }
+
   return (
     <>
       <Header />
@@ -158,7 +166,7 @@ export default function Dashboard() {
                       </td>
                       <td data-label="Cadastrado"> {iten.createdFormat} </td>
                       <td data-label="#">
-                        <button>
+                        <button onClick={() => handleShowPostModal(iten)}>
                           <FiSearch
                             className="action"
                             size={17}
@@ -193,6 +201,13 @@ export default function Dashboard() {
           )}
         </>
       </div>
+
+      {showPostModal && (
+        <Modal
+          conteudo={detail}
+          close={() => setShowPostModal(!showPostModal)}
+        />
+      )}
     </>
   );
 }

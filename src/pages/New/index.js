@@ -109,9 +109,12 @@ export default function New() {
     if (idCustomer) {
       const dorRef = doc(db, "chamdos", id);
       await updateDoc(dorRef, {
+        cliente: customers[customersSelected].nomeFantasia,
+        clienteId: customers[customersSelected].id,
         assunto: assunto,
-        status: status,
         complemento: complemento,
+        status: status,
+        userId: user.uid,
       })
         .then(() => {
           toast.success("Salvo!");
@@ -175,7 +178,7 @@ export default function New() {
     <>
       <Header />
       <div className="content">
-        <Title name="Novo Chamado">
+        <Title name={id ? "Editando chamado" : "Novo chamado"}>
           <FiPlusCircle size={25} />
         </Title>
         <div className="container">
