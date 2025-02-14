@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../contexts/auth";
+import React, { useEffect, useState } from "react";
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
@@ -19,8 +18,6 @@ import Modal from "../../components/Modal";
 import { db } from "../../services/firebaseConection.js";
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext);
-
   const [chamados, setChamados] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
