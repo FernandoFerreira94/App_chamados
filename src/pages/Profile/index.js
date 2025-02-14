@@ -39,7 +39,7 @@ export default function Profile() {
         setImageAvatar(image);
         setAvatarUrl(URL.createObjectURL(image));
       } else {
-        toast.info('Insira uma imagem do tipo "PNG ou JPEG"');
+        toast.info('Insert an image of type "PNG or JPEG"');
         setImageAvatar(null);
         return;
       }
@@ -67,11 +67,11 @@ export default function Profile() {
           setAvatarUrl(imageLocalStorage);
           setImageAvatar(null);
 
-          toast.success("Foto de perfil atualizada com sucesso!");
+          toast.success("Profile picture updated successfully!");
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Ops falha ao atualizar");
+          toast.error("Failed to update");
         });
     };
 
@@ -94,9 +94,9 @@ export default function Profile() {
           setUser(data);
           storageUser(data);
 
-          toast.info("Nome atualizado!");
+          toast.info("Updated name!");
         })
-        .catch((e) => toast.error("Erro ao atualizar o nome"));
+        .catch((e) => toast.error("Error updating name"));
     } else if (name !== "" && imageAvatar !== null) {
       await handleUpload();
     }
@@ -106,7 +106,7 @@ export default function Profile() {
     <>
       <Header />
       <div className="content">
-        <Title name="Minha conta">
+        <Title name="My account">
           <FiSettings size={25} />
         </Title>
         <div className="container">
@@ -134,17 +134,17 @@ export default function Profile() {
               )}
             </label>
 
-            <label>Nome</label>
+            <label>Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
 
-            <label>Email</label>
+            <label>E-mail</label>
             <input type="text" value={email} disabled={true} />
 
-            <input type="submit" value="Salvar" />
+            <input type="submit" value="Register" />
           </form>
         </div>
       </div>

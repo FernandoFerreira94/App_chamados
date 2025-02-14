@@ -12,18 +12,18 @@ export default function Modal({ conteudo, close }) {
         </button>
 
         <main>
-          <h2>Detalhes do chamados</h2>
+          <h2>Call details</h2>
           <div className="row">
             <span>
-              Cliente: <i> {conteudo.cliente} </i>
+              Customers: <i> {conteudo.cliente} </i>
             </span>
           </div>
           <div className="row">
             <span>
-              Assunto: <i> {conteudo.assunto}</i>
+              Subject: <i> {conteudo.assunto}</i>
             </span>
             <span>
-              Cadastrado em: <i>{conteudo.createdFormat}</i>
+              Registered in: <i>{conteudo.createdFormat}</i>
             </span>
           </div>
           <div className="row">
@@ -32,7 +32,7 @@ export default function Modal({ conteudo, close }) {
               <i
                 className="badge"
                 style={{
-                  background: conteudo.status === "Aberto" ? "#5CB85C" : "#999",
+                  background: conteudo.status === "Open" ? "#5CB85C" : "#999",
                 }}
               >
                 {conteudo.status}
@@ -41,7 +41,7 @@ export default function Modal({ conteudo, close }) {
           </div>
 
           <div className="row">
-            <span>Complemento:</span>
+            <span>Complement:</span>
             <p>{conteudo.complemento ? conteudo.complemento : "..."}</p>
           </div>
         </main>

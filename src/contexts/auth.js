@@ -53,12 +53,12 @@ function AuthProvider({ children }) {
         setUser(data);
         storageUser(data);
         setLoadingAuth(false);
-        toast.success("Seja bem vindo! :D");
+        toast.success("Welcome! :D");
         navigate("/dashboard");
       })
       .catch((error) => {
         console.log(error);
-        toast.error("ops");
+        toast.error("Ops Error ");
         setLoadingAuth(false);
       });
   }
@@ -86,13 +86,13 @@ function AuthProvider({ children }) {
 
           setLoadingAuth(false);
 
-          toast.success("Seja bem vindo! :D");
+          toast.success("Welcome! :D");
 
           navigate("/dashboard");
         });
       })
       .catch((error) => {
-        toast.error(`erro ao cadastrar ${error}`);
+        toast.error(`Error registering ${error}`);
         console.log(error);
         setLoadingAuth(false);
       });
@@ -106,10 +106,10 @@ function AuthProvider({ children }) {
     await signOut(auth)
       .then(() => {
         localStorage.removeItem("@userPro");
-        toast.info("Voçê foi deslogado");
+        toast.info("You have been logged out");
         setUser(null);
       })
-      .catch((error) => toast.error("Ops erro ao deslogar"));
+      .catch((error) => toast.error("Error logging out"));
   }
 
   return (

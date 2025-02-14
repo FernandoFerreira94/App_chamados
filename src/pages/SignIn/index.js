@@ -24,7 +24,7 @@ export default function SignIn() {
       signIn(email, password);
       clearCamp();
     } else {
-      toast.warning("Preenche os campos");
+      toast.warning("Fill in all fields");
     }
   }
   return (
@@ -34,7 +34,7 @@ export default function SignIn() {
           <img src={logo} alt="logo do sistema de chamados" />
         </div>
         <form onSubmit={handleSingIn} className="form-signIn">
-          <h1>Entrar</h1>
+          <h1>Login</h1>
           <input
             type="text"
             placeholder="email@email.com"
@@ -48,13 +48,10 @@ export default function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <input
-            type="submit"
-            value={loadingAuth ? "Carregando..." : "Acessar"}
-          />
+          <input type="submit" value={loadingAuth ? "Loading..." : "Access"} />
         </form>
 
-        <Link to={"/register"}>Criar uma conta.</Link>
+        <Link to={"/register"}>Create an account.</Link>
       </div>
     </div>
   );

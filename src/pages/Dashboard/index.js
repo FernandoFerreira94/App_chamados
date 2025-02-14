@@ -99,7 +99,7 @@ export default function Dashboard() {
           </Title>
 
           <div className="container dashboard">
-            <span>Buscando chamados...</span>
+            <span>Looking for calls...</span>
           </div>
         </div>
       </div>
@@ -121,12 +121,12 @@ export default function Dashboard() {
         <>
           {chamados.length === 0 ? (
             <div className="content dashboard">
-              <span>Nenhum chamados encontrado ...</span>
+              <span>No call found...</span>
               <br />
               <Link to="/new" className="link-new">
                 {" "}
                 <FiPlus size={25} color="#fff" />
-                Novo chamado
+                New call
               </Link>
             </div>
           ) : (
@@ -134,16 +134,16 @@ export default function Dashboard() {
               <Link to="/new" className="link-new">
                 {" "}
                 <FiPlus size={25} color="#fff" />
-                Novo chamado
+                New call
               </Link>
 
               <table>
                 <thead>
                   <tr key="">
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Assunto</th>
+                    <th scope="col">Customers</th>
+                    <th scope="col">Subject</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Cadastrando em</th>
+                    <th scope="col">Registered in</th>
                     <th scope="col">#</th>
                   </tr>
                 </thead>
@@ -157,7 +157,7 @@ export default function Dashboard() {
                           className="badge"
                           style={{
                             background:
-                              iten.status === "Aberto" ? "#5CB85C" : "#999",
+                              iten.status === "Open" ? "#5CB85C" : "#999",
                           }}
                         >
                           {" "}
@@ -189,12 +189,12 @@ export default function Dashboard() {
               </table>
               {loadingMore && (
                 <div className="container">
-                  <h3>Buscando mais chamados...</h3>
+                  <h3>Looking for more calls...</h3>
                 </div>
               )}
               {!loadingMore && !isEmpty && (
                 <button onClick={handleMore} className="btnMore">
-                  Buscar mais
+                  Search more
                 </button>
               )}
             </>

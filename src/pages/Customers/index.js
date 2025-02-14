@@ -34,15 +34,15 @@ export default function Customers() {
       })
         .then(() => {
           campoLimpo();
-          toast.success("Dados Salvo");
+          toast.success("Data Saved");
           setLoadingAuth(false);
         })
         .catch((e) => {
           console.log(e);
-          toast.error("Ops falha ao salvar cliente");
+          toast.error("Failed to save client");
         });
     } else {
-      toast.warning("Preencha todos os campos!");
+      toast.warning("Fill in all fields!");
       setLoadingAuth(false);
     }
   }
@@ -50,15 +50,15 @@ export default function Customers() {
     <>
       <Header />
       <div className="content">
-        <Title name="Clientes">
+        <Title name="Customers">
           <FiUser size={25} />
         </Title>
         <div className="container">
           <form className="form-profile" onSubmit={handleRegister}>
-            <label>Nome do cliente</label>
+            <label>Customers name</label>
             <input
               type="text"
-              placeholder="Nome da empresa"
+              placeholder="Company name"
               value={nome}
               onChange={(e) => {
                 setNome(e.target.value);
@@ -67,16 +67,16 @@ export default function Customers() {
             <label>CNPJ</label>
             <input
               type="text"
-              placeholder="Digite CNPJ"
+              placeholder="Enter CNPJ"
               value={cnpj}
               onChange={(e) => {
                 setCnpj(e.target.value);
               }}
             />
-            <label>Endereço</label>
+            <label>Address</label>
             <input
               type="text"
-              placeholder="Endereço da empresa"
+              placeholder="Company address"
               value={endereco}
               onChange={(e) => {
                 setEndereco(e.target.value);
@@ -84,7 +84,7 @@ export default function Customers() {
             />
             <input
               type="submit"
-              value={loadingAuth ? "Salvando..." : "Salvar"}
+              value={loadingAuth ? "Registering..." : "Register"}
             />
           </form>
         </div>

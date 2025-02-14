@@ -31,8 +31,8 @@ export default function New() {
   const [customersSelected, setCustomersSelected] = useState(0);
   const [customers, setCustomers] = useState([]);
   const [complemento, setComplemento] = useState("");
-  const [assunto, setAssunto] = useState("suporte");
-  const [status, setStatus] = useState("Aberto");
+  const [assunto, setAssunto] = useState("Support");
+  const [status, setStatus] = useState("Open");
   const [idCustomer, setIdCustomer] = useState(false);
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export default function New() {
         userId: user.uid,
       })
         .then(() => {
-          toast.success("Salvo!");
+          toast.success("Saved!");
           navigate("/dashboard");
         })
         .catch((e) => {
@@ -137,14 +137,14 @@ export default function New() {
       userId: user.uid,
     })
       .then(() => {
-        toast.success("Chamado registrado com sucesso");
+        toast.success("Call registered successfully");
         setComplemento("");
         setCustomersSelected(0);
         setLoadingAuth(false);
       })
       .catch((e) => {
         console.log(e);
-        toast.error("Ops erro ao Registrar");
+        toast.error("Error Registering");
         setLoadingAuth(false);
       });
   }
@@ -167,7 +167,7 @@ export default function New() {
 
     await deleteDoc(docRef)
       .then(() => {
-        toast.error("Chamado excluido");
+        toast.error("Call deleted");
         navigate("/dashboard");
       })
       .catch((e) => {
@@ -178,12 +178,12 @@ export default function New() {
     <>
       <Header />
       <div className="content">
-        <Title name={id ? "Editando chamado" : "Novo chamado"}>
+        <Title name={id ? "Editing call" : "New call"}>
           <FiPlusCircle size={25} />
         </Title>
         <div className="container">
           <form className="form-profile" onSubmit={handleRegistrar}>
-            <label>Clientes</label>
+            <label>Custormers</label>
             {loadCustomer ? (
               <input type="text" disabled={true} value="Carregando... " />
             ) : (
@@ -203,16 +203,16 @@ export default function New() {
               </select>
             )}
 
-            <label>Assuntos</label>
+            <label>Subject</label>
             <select value={assunto} onChange={handleSelectChange}>
-              <option value="Suporte" key="">
-                Suporte
+              <option value="Support" key="0">
+                Support
               </option>
-              <option value="Visita Tecnica" key="1">
-                Visita Tecnica
+              <option value="Technical Visit" key="1">
+                Technical Visit
               </option>
-              <option value="Financeiro" key="2">
-                Financeiro
+              <option value="Financial" key="2">
+                Financial
               </option>
             </select>
             <label>Status</label>
@@ -220,37 +220,37 @@ export default function New() {
               <input
                 type="radio"
                 name="radio"
-                value="Aberto"
+                value="Open"
                 onChange={handleOptionChange}
-                checked={status === "Aberto"}
+                checked={status === "Open"}
               />
 
-              <span>Em aberto</span>
-
-              <input
-                type="radio"
-                name="radio"
-                value="Progresso"
-                onChange={handleOptionChange}
-                checked={status === "Progresso"}
-              />
-              <span>Progresso</span>
+              <span>Open</span>
 
               <input
                 type="radio"
                 name="radio"
-                value="Atendido"
+                value="Progress"
                 onChange={handleOptionChange}
-                checked={status === "Atendido"}
+                checked={status === "Progress"}
               />
-              <span>Atendido</span>
+              <span>Progress</span>
+
+              <input
+                type="radio"
+                name="radio"
+                value="Answered"
+                onChange={handleOptionChange}
+                checked={status === "Answered"}
+              />
+              <span>Answered</span>
             </div>
 
-            <label>Complemento</label>
+            <label>Complement</label>
 
             <textarea
               typeof="text"
-              placeholder="Descreva seu problema (opcinal)"
+              placeholder="Describe your problem (optional)"
               value={complemento}
               onChange={(e) => setComplemento(e.target.value)}
             />

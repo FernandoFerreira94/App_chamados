@@ -30,7 +30,7 @@ export default function SignUp() {
 
       clearCamp();
     } else {
-      toast.warning("Preencha todos os campos");
+      toast.warning("Fill in all fields");
     }
   }
 
@@ -41,10 +41,10 @@ export default function SignUp() {
           <img src={logo} alt="logo do sistema de chamados" />
         </div>
         <form onSubmit={handleSubmit} className="form-signIn">
-          <h1>Nova Conta</h1>
+          <h1>New account</h1>
           <input
             type="text"
-            placeholder="Seu nome"
+            placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -64,11 +64,11 @@ export default function SignUp() {
 
           <input
             type="submit"
-            value={loadinAuth ? "Carregando..." : "Cadastrar"}
+            value={loadinAuth ? "Registering..." : "Register"}
           />
         </form>
 
-        <Link to={"/"}>Já possue uma conta? Faça login.</Link>
+        <Link to={"/"}>Already have an account? Log in.</Link>
       </div>
     </div>
   );
