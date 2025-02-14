@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import "./customers.css";
 import Header from "../../components/Header";
@@ -11,7 +11,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../services/firebaseConection.js";
 
 export default function Customers() {
-  const { loadingAuth, setLoadingAuth, user } = useContext(AuthContext);
+  const { loadingAuth, setLoadingAuth } = useContext(AuthContext);
 
   const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState("");

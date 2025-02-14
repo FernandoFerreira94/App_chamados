@@ -37,7 +37,7 @@ export default function New() {
 
   useEffect(() => {
     async function loadCustomers() {
-      const queryCustomres = await getDocs(listRef)
+      await getDocs(listRef)
         .then((snapshot) => {
           let lista = [];
 
@@ -79,7 +79,7 @@ export default function New() {
         });
     }
     loadCustomers();
-  }, [id]);
+  }, []);
 
   async function loadId(lista) {
     const docRef = doc(db, "chamdos", id);

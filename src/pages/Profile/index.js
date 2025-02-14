@@ -11,7 +11,7 @@ import { AuthContext } from "../../contexts/auth";
 import { db } from "../../services/firebaseConection.js";
 
 export default function Profile() {
-  const { user, storageUser, setUser, logout } = useContext(AuthContext);
+  const { user, storageUser, setUser } = useContext(AuthContext);
 
   const [avatarUrl, setAvatarUrl] = useState(user && user.avatarUrl);
   const [imageAvatar, setImageAvatar] = useState(null);

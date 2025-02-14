@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { FiHome, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 
 import { AuthContext } from "../../contexts/auth";
