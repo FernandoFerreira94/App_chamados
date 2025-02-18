@@ -76,29 +76,29 @@ export default function New() {
     }
 
     loadCustomers();
+  }, [id]);
 
-    async function loadId(lista) {
-      const docRef = doc(db, "chamados", id);
+  async function loadId(lista) {
+    const docRef = doc(db, "chamados", id);
 
-      await getDoc(docRef)
-        .then((snapshot) => {
-          setAssunto(snapshot.data().assunto);
-          setStatus(snapshot.data().status);
-          setComplemento(snapshot.data().complemento);
+    await getDoc(docRef)
+      .then((snapshot) => {
+        setAssunto(snapshot.data().assunto);
+        setStatus(snapshot.data().status);
+        setComplemento(snapshot.data().complemento);
 
-          let index = lista.findIndex(
-            (item) => item.id === snapshot.data().clienteId
-          );
+        let index = lista.findIndex(
+          (item) => item.id === snapshot.data().clienteId
+        );
 
-          setCustomersSelected(index);
-          setIdCustomer(true);
-        })
-        .catch((e) => {
-          console.log(e);
-          setIdCustomer(false);
-        });
-    }
-  }, [id]); // Adicione 'loadId' como dependência aqui
+        setCustomersSelected(index);
+        setIdCustomer(true);
+      })
+      .catch((e) => {
+        console.log(e);
+        setIdCustomer(false);
+      });
+  }
 
   async function handleRegistrar(e) {
     e.preventDefault();
@@ -174,7 +174,6 @@ export default function New() {
         console.log(e);
       });
   }
-
   return (
     <>
       <Header />
