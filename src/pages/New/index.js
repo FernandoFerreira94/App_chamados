@@ -40,7 +40,6 @@ export default function New() {
       await getDocs(listRef)
         .then((snapshot) => {
           let lista = [];
-
           snapshot.forEach((doc) => {
             lista.push({
               id: doc.id,
@@ -73,7 +72,7 @@ export default function New() {
           setCustomers([
             {
               id: "1",
-              nomeFantas: "FREELA",
+              nomeFantasia: "FREELA",
             },
           ]);
         });
