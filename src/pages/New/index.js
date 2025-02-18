@@ -79,7 +79,7 @@ export default function New() {
         });
     }
     loadCustomers();
-  }, [id, loadId]);
+  }, [id]);
 
   async function loadId(lista) {
     const docRef = doc(db, "chamdos", id);
