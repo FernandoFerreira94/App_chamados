@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-
 import Header from "../../components/Header";
 import Title from "../../components/Title";
 import { db } from "../../services/firebaseConection.js";
-
 import {
   collection,
   getDocs,
@@ -15,19 +13,18 @@ import {
 } from "firebase/firestore";
 import { AuthContext } from "../../contexts/auth";
 import { FiPlusCircle } from "react-icons/fi";
-
 import "./new.css";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 
 const listRef = collection(db, "customers");
+
 export default function New() {
   const { loadingAuth, setLoadingAuth, user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [loadCustomer, setLoadCustomer] = useState(true);
-
   const [customersSelected, setCustomersSelected] = useState(0);
   const [customers, setCustomers] = useState([]);
   const [complemento, setComplemento] = useState("");
@@ -77,37 +74,38 @@ export default function New() {
           ]);
         });
     }
+
     loadCustomers();
-  }, [id]);
 
-  async function loadId(lista) {
-    const docRef = doc(db, "chamdos", id);
+    async function loadId(lista) {
+      const docRef = doc(db, "chamados", id);
 
-    await getDoc(docRef)
-      .then((snapshot) => {
-        setAssunto(snapshot.data().assunto);
-        setStatus(snapshot.data().status);
-        setComplemento(snapshot.data().complemento);
+      await getDoc(docRef)
+        .then((snapshot) => {
+          setAssunto(snapshot.data().assunto);
+          setStatus(snapshot.data().status);
+          setComplemento(snapshot.data().complemento);
 
-        let index = lista.findIndex(
-          (item) => item.id === snapshot.data().clienteId
-        );
+          let index = lista.findIndex(
+            (item) => item.id === snapshot.data().clienteId
+          );
 
-        setCustomersSelected(index);
-        setIdCustomer(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIdCustomer(false);
-      });
-  }
+          setCustomersSelected(index);
+          setIdCustomer(true);
+        })
+        .catch((e) => {
+          console.log(e);
+          setIdCustomer(false);
+        });
+    }
+  }, [id]); // Adicione 'loadId' como dependência aqui
 
   async function handleRegistrar(e) {
     e.preventDefault();
 
     if (idCustomer) {
-      const dorRef = doc(db, "chamdos", id);
-      await updateDoc(dorRef, {
+      const docRef = doc(db, "chamados", id);
+      await updateDoc(docRef, {
         cliente: customers[customersSelected].nomeFantasia,
         clienteId: customers[customersSelected].id,
         assunto: assunto,
@@ -117,16 +115,19 @@ export default function New() {
       })
         .then(() => {
           toast.success("Saved!");
+          setLoadingAuth(false);
           navigate("/dashboard");
         })
         .catch((e) => {
           console.log(e);
+          setLoadingAuth(false);
         });
       return;
     }
+
     setLoadingAuth(true);
 
-    await addDoc(collection(db, "chamdos"), {
+    await addDoc(collection(db, "chamados"), {
       created: new Date(),
       cliente: customers[customersSelected].nomeFantasia,
       clienteId: customers[customersSelected].id,
@@ -162,7 +163,7 @@ export default function New() {
   }
 
   async function handleExcluir() {
-    const docRef = doc(db, "chamdos", id);
+    const docRef = doc(db, "chamados", id);
 
     await deleteDoc(docRef)
       .then(() => {
@@ -173,6 +174,7 @@ export default function New() {
         console.log(e);
       });
   }
+
   return (
     <>
       <Header />
@@ -182,7 +184,7 @@ export default function New() {
         </Title>
         <div className="container">
           <form className="form-profile" onSubmit={handleRegistrar}>
-            <label>Custormers</label>
+            <label>Customers</label>
             {loadCustomer ? (
               <input type="text" disabled={true} value="Carregando... " />
             ) : (
@@ -223,9 +225,7 @@ export default function New() {
                 onChange={handleOptionChange}
                 checked={status === "Open"}
               />
-
               <span>Open</span>
-
               <input
                 type="radio"
                 name="radio"
@@ -234,7 +234,6 @@ export default function New() {
                 checked={status === "Progress"}
               />
               <span>Progress</span>
-
               <input
                 type="radio"
                 name="radio"
@@ -244,9 +243,7 @@ export default function New() {
               />
               <span>Answered</span>
             </div>
-
             <label>Complement</label>
-
             <textarea
               typeof="text"
               placeholder="Describe your problem (optional)"
