@@ -24,9 +24,10 @@ export default function New() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [customers, setCustomers] = useState([]);
   const [loadCustomer, setLoadCustomer] = useState(true);
   const [customersSelected, setCustomersSelected] = useState(0);
-  const [customers, setCustomers] = useState([]);
+
   const [complemento, setComplemento] = useState("");
   const [assunto, setAssunto] = useState("Support");
   const [status, setStatus] = useState("Open");
@@ -34,9 +35,10 @@ export default function New() {
 
   useEffect(() => {
     async function loadCustomers() {
-      await getDocs(listRef)
+      const querySnapshot = await getDocs(listRef)
         .then((snapshot) => {
           let lista = [];
+
           snapshot.forEach((doc) => {
             lista.push({
               id: doc.id,
@@ -115,6 +117,8 @@ export default function New() {
       })
         .then(() => {
           toast.success("Saved!");
+          setCustomersSelected(0);
+          setComplemento("");
           setLoadingAuth(false);
           navigate("/dashboard");
         })
@@ -155,7 +159,6 @@ export default function New() {
 
   function handleSelectChange(e) {
     setAssunto(e.target.value);
-    console.log(e.target.value);
   }
 
   function handleCustomersChange(e) {
@@ -185,7 +188,7 @@ export default function New() {
           <form className="form-profile" onSubmit={handleRegistrar}>
             <label>Customers</label>
             {loadCustomer ? (
-              <input type="text" disabled={true} value="Carregando... " />
+              <input type="text" disabled={true} value="Loading... " />
             ) : (
               <select
                 disabled={idCustomer ? true : false}

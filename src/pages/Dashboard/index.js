@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [showPostModal, setShowPostModal] = useState(false);
   const [detail, setDetail] = useState({});
 
-  const docRef = collection(db, "chamdos");
+  const docRef = collection(db, "chamados");
 
   useEffect(() => {
     async function loadChamados() {
