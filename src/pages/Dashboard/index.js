@@ -41,7 +41,7 @@ export default function Dashboard() {
     loadChamados();
 
     return () => {};
-  }, []);
+  }, [docRef]);
 
   async function updateState(querySnapshot) {
     const isCollectionEmpty = querySnapshot.size === 0;
